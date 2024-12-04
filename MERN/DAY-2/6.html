@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Product Catalog</title>
+    <style>
+        :root {
+            --primary-color: #0ff;
+            --secondary-color: #0a2342;
+            --background-color: #0a1128;
+            --text-color: #0ff;
+            --hover-color: #3498db;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Orbitron', 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .glitch-effect {
+            position: relative;
+            text-shadow: 
+                0.05em 0 0 #00fffc,
+                -0.03em -0.04em 0 #fc00ff,
+                0.025em 0.04em 0 #fffc00;
+            animation: glitch 725ms infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 
+                    0.05em 0 0 #00fffc,
+                    -0.03em -0.04em 0 #fc00ff,
+                    0.025em 0.04em 0 #fffc00;
+            }
+            15% {
+                text-shadow: 
+                    0.05em 0 0 #00fffc,
+                    -0.03em -0.04em 0 #fc00ff,
+                    0.025em 0.04em 0 #fffc00;
+            }
+            16% {
+                text-shadow: 
+                    -0.05em -0.025em 0 #00fffc,
+                    0.025em 0.035em 0 #fc00ff,
+                    -0.05em -0.05em 0 #fffc00;
+            }
+            49% {
+                text-shadow: 
+                    -0.05em -0.025em 0 #00fffc,
+                    0.025em 0.035em 0 #fc00ff,
+                    -0.05em -0.05em 0 #fffc00;
+            }
+            50% {
+                text-shadow: 
+                    0.05em 0.035em 0 #00fffc,
+                    0.03em 0 0 #fc00ff,
+                    0 -0.04em 0 #fffc00;
+            }
+            99% {
+                text-shadow: 
+                    0.05em 0.035em 0 #00fffc,
+                    0.03em 0 0 #fc00ff,
+                    0 -0.04em 0 #fffc00;
+            }
+            100% {
+                text-shadow: 
+                    -0.05em 0 0 #00fffc,
+                    -0.025em -0.04em 0 #fc00ff,
+                    -0.04em -0.025em 0 #fffc00;
+            }
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                var(--primary-color), 
+                transparent
+            );
+            opacity: 0.1;
+            animation: scanline 5s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        header {
+            background-color: rgba(10, 35, 66, 0.8);
+            text-align: center;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .navigation {
+            background-color: rgba(10, 35, 66, 0.5);
+            width: 350px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-right: 20px;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            transform: rotateY(15deg);
+        }
+
+        .navigation:hover {
+            transform: rotateY(0deg) scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .navigation h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .navigation ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .navigation ul li {
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navigation ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(0, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .navigation ul li a:hover::before {
+            left: 100%;
+        }
+
+        .navigation ul li a:hover {
+            color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .navigation ul ul {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-left: 20px;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .navigation ul li:hover > ul {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .content-area {
+            flex-grow: 1;
+            background-color: rgba(10, 35, 66, 0.5);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 20px;
+            min-height: 600px;
+            transform: rotateY(-15deg);
+            transition: all 0.5s ease;
+        }
+
+        .content-area:hover {
+            transform: rotateY(0deg) scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .navigation, .content-area {
+                width: 100%;
+                transform: none;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-hover:hover {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <header>
+        <h1 class="glitch-effect">Quantum Catalog</h1>
+    </header>
+    <div class="container">
+        <nav class="navigation">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search quantum catalog...">
+            </div>
+            <h2>Product Categories</h2>
+            <ul>
+                <li>
+                    <a href="#" data-category="electronics" class="pulse-hover">Quantum Electronics</a>
+                    <ul>
+                        <li><a href="#" data-subcategory="mobile-phones">Neural Link Devices</a></li>
+                        <li><a href="#" data-subcategory="laptops">Holographic Computers</a></li>
+                        <li><a href="#" data-subcategory="cameras">Quantum Imaging Systems</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-category="furniture" class="pulse-hover">Adaptive Environments</a>
+                    <ul>
+                        <li><a href="#" data-subcategory="sofas">Morphing Seating Units</a></li>
+                        <li><a href="#" data-subcategory="beds">Regenerative Sleep Pods</a></li>
+                        <li><a href="#" data-subcategory="dining-tables">Molecular Dining Surfaces</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-category="clothing" class="pulse-hover">Nano-Textile Wear</a>
+                    <ul>
+                        <li><a href="#" data-subcategory="mens-wear">Adaptive Male Apparel</a></li>
+                        <li><a href="#" data-subcategory="womens-wear">Dynamic Female Wear</a></li>
+                        <li><a href="#" data-subcategory="kids-wear">Quantum Kids Outfitters</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="content-area">
+            <h2 id="category-title" class="glitch-effect">Quantum Catalog Interface</h2>
+            <p>Navigate through our advanced product ecosystem. Select a category to explore cutting-edge technologies.</p>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactive functionality (similar to previous implementation)
+        const searchInput = document.querySelector('.search-input');
+        const navigationLinks = document.querySelectorAll('.navigation a');
+        const contentArea = document.querySelector('.content-area');
+        const categoryTitle = document.getElementById('category-title');
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            navigationLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const isVisible = text.includes(searchTerm);
+                
+                if (link.getAttribute('data-category')) {
+                    const subCategories = link.nextElementSibling;
+                    if (isVisible) {
+                        link.style.display = 'block';
+                        subCategories.style.maxHeight = '0';
+                    } else {
+                        link.style.display = 'none';
+                    }
+                } else {
+                    link.style.display = isVisible ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Category selection functionality
+        navigationLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.getAttribute('data-category');
+                const subcategory = this.getAttribute('data-subcategory');
+
+                if (category) {
+                    categoryTitle.textContent = this.textContent;
+                    contentArea.innerHTML = `
+                        <h2 class="glitch-effect">${this.textContent}</h2>
+                        <p>Explore our quantum-enhanced ${this.textContent.toLowerCase()} technologies.</p>
+                        <div class="product-grid">
+                            <div class="product-card pulse-hover">
+                                <h3>Quantum Model X</h3>
+                                <p>Advanced technological marvel</p>
+                            </div>
+                            <div class="product-card pulse-hover">
+                                <h3>Nexus Prototype</h3>
+                                <p>Cutting-edge innovation</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (subcategory) {
+                    categoryTitle.textContent = this.textContent;
+                    contentArea.innerHTML = `
+                        <h2 class="glitch-effect">${this.textContent}</h2>
+                        <p>Breakthrough technologies in ${this.textContent.toLowerCase()}.</p>
+                        <div class="product-grid">
+                            <div class="product-card pulse-hover">
+                                <h3>Quantum ${this.textContent} Edition</h3>
+                                <p>Next-generation solution</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
